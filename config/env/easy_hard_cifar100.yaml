@@ -1,0 +1,7 @@
+name: EasyHardCIFAR100
+params:
+  easy_task_num_classes: 1
+  hard_task_num_classes: 5
+  easy_task_duration: 625
+  hard_task_duration: 625
+  env_batch_size: 16

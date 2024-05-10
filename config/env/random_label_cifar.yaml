@@ -1,0 +1,7 @@
+name: RandomLabelCIFAR
+params:
+  unique_samples_per_dataset: 1200
+  concept_duration: 30000
+  num_concept_shifts: 50
+  env_batch_size: 16
+  num_labels_changed: 10

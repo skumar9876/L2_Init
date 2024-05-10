@@ -1,0 +1,36 @@
+defaults:
+  - agent: base
+  - env: random_label_mnist
+  - _self_
+  - override hydra/launcher: joblib
+
+model:
+  model_name: MLP
+  num_hidden: 2
+  hidden_size: 10
+  output_dim: 10
+  num_channels: 16
+  init_type: 'default'
+
+
+main:
+  seed: 0
+  device: "gpu"
+  loss_fn: CrossEntropyLoss
+  measure_forgetting: False
+
+optimizer_cfg:
+  name: SGD   # One of [Adam, SGD]
+  lr: 0.0001
+  momentum: 0.0
+  weight_decay: 0.0
+
+logging:
+  # wandb_entity: None 
+  log_freq: 10
+
+wandb:
+  project: 'cl-position-paper-${env.name}'
+  name: '${agent.name}'
+
+sweep: 'default'

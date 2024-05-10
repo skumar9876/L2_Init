@@ -1,0 +1,6 @@
+name: ContinualImageNet
+params:
+  task_duration: 100
+  num_tasks: 2000
+  env_batch_size: 100
+  num_classes_per_task: 2

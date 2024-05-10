@@ -1,0 +1,4 @@
+name: ShrinkAndPerturbAgent
+params:
+  shrink: 0.0
+  perturb_scale: 0.0

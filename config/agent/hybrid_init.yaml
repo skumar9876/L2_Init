@@ -1,0 +1,5 @@
+name: HybridInitAgent
+params:
+  l2_weight: 0.0
+  l1_weight: 0.0
+  sample_init_values: False

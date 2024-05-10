@@ -1,0 +1,3 @@
+name: ConcatReLUAgent
+params:
+  fraction_to_remove: 0.0

@@ -1,0 +1,7 @@
+name: ContinualBackpropAgent
+params:
+  replacement_rate: 0.001
+  decay_rate: 0.99
+  maturity_threshold: 20
+  util_type: 'contribution'
+  accumulate: False

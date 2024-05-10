@@ -1,0 +1,4 @@
+name: L1InitAgent
+params:
+  l1_weight: 0.0
+  sample_init_values: False

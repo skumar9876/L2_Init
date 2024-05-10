@@ -1,0 +1,6 @@
+name: PermutedMNIST
+params:
+  unique_samples_per_dataset: 10000
+  permutation_duration: 625
+  num_permutations: 500
+  env_batch_size: 16

@@ -1,0 +1,5 @@
+name: L2InitPlusEWCAgent
+params:
+  l2_weight: 0.0
+  ewc_weight: 0.0
+  use_fisher: False

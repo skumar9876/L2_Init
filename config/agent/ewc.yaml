@@ -1,0 +1,4 @@
+name: EWCAgent
+params:
+  ewc_weight: 0.0
+  use_fisher: False

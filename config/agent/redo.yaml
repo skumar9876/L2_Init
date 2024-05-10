@@ -1,0 +1,4 @@
+name: ReDOAgent
+params:
+  recycle_period: 0
+  recycle_threshold: 0.0

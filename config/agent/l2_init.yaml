@@ -1,0 +1,4 @@
+name: L2InitAgent
+params:
+  l2_weight: 0.0
+  sample_init_values: False
