@@ -10,12 +10,12 @@ from utils.load_data import load_mnist_data, load_cifar_data
 class RandomLabelEnv:
     def __init__(
         self, 
-        concept_duration,
-        num_concept_shifts,
-        num_labels_changed=10,
-        env_batch_size=16, 
-        unique_samples_per_dataset=60000, 
-        seed=0,
+        concept_duration: int,
+        num_concept_shifts: int,
+        num_labels_changed: int = 10,
+        env_batch_size: int = 16, 
+        unique_samples_per_dataset: int = 60000, 
+        seed: int = 0,
         device=None):
         """
         concept_duration: int, number of time steps after which concept shifts.
@@ -23,6 +23,7 @@ class RandomLabelEnv:
         number_of_labels_changed: int, number of labels changed when a concept shift occurs.
         env_batch_size: int
         unique_samples_per_dataset: int
+        seed: int
         """
         assert num_labels_changed >= 1 and num_labels_changed <= 10
         assert unique_samples_per_dataset % env_batch_size == 0
@@ -115,19 +116,20 @@ class RandomLabelEnv:
 class RandomLabelMNIST(RandomLabelEnv):
     def __init__(
         self, 
-        concept_duration,
-        num_concept_shifts,
-        num_labels_changed=10,
-        env_batch_size=16, 
-        unique_samples_per_dataset=60000, 
-        seed=0,
+        concept_duration: int,
+        num_concept_shifts: int,
+        num_labels_changed: int = 10,
+        env_batch_size: int = 16, 
+        unique_samples_per_dataset: int = 60000, 
+        seed: int = 0,
         device=None):
         """
         concept_duration: int, number of time steps after which concept shifts.
         num_concept_shifts: int, number of times that the concept shifts.
         number_of_labels_changed: int, number of labels changed when a concept shift occurs.
-        env_batch_size: int
+        env_batch_size: int, the environment batch size.
         unique_samples_per_dataset: int
+        seed: int
         """
         super().__init__(
             concept_duration=concept_duration,
@@ -148,8 +150,8 @@ class RandomLabelMNIST(RandomLabelEnv):
         self.images = self.images[:self.unique_samples_per_dataset]
         self.labels = self.labels[:self.unique_samples_per_dataset]
         
-        self.images.to(device)
-        self.labels.to(device)
+        self.images = self.images.to(device)
+        self.labels = self.labels.to(device)
         
         self.images = torch.reshape(self.images, (len(self.images), -1))
 
@@ -197,8 +199,8 @@ class RandomLabelCIFAR(RandomLabelEnv):
         self.images = self.images[:self.unique_samples_per_dataset]
         self.labels = self.labels[:self.unique_samples_per_dataset]
         
-        self.images.to(device)
-        self.labels.to(device)
+        self.images = self.images.to(device)
+        self.labels = self.labels.to(device)
 
         all_indices = np.arange(len(self.labels))
         self.env_rng.shuffle(all_indices)

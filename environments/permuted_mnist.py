@@ -71,10 +71,10 @@ class PermutedMNIST:
         self.train_images = np.reshape(self.train_images, (len(self.train_images), -1))
         self.test_images = np.reshape(self.test_images, (len(self.test_images), -1))
             
-        self.train_images.to(device)
-        self.train_labels.to(device)
-        self.test_images.to(device)
-        self.test_labels.to(device)
+        self.train_images = self.train_images.to(device)
+        self.train_labels = self.train_labels.to(device)
+        self.test_images = self.test_images.to(device)
+        self.test_labels = self.test_labels.to(device)
         
         self.train_images = self.train_images.detach()
         self.train_labels = self.train_labels.detach()

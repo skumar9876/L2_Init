@@ -35,7 +35,7 @@ def create_all_commands():
 
     MODEL_ARGS="model.model_name=ConvNet model.num_hidden=2 model.num_channels=16 model.output_dim=10 model.hidden_size=100"
 
-    EXP_ARGS="logging.log_freq=13037"
+    EXP_ARGS="logging.log_freq=13037 main.use_wandb=True"
     
     base_command_str = f'python main.py optimizer_cfg.name=SGD {ENV_ARGS} {MODEL_ARGS} {EXP_ARGS} {SWEEP}'
     lr_params = {'optimizer_cfg.lr': [str(0.01), str(0.001)]}

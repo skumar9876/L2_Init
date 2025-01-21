@@ -78,7 +78,8 @@ def main(cfg):
 
     # Logger
     logging_cfg = OmegaConf.to_container(cfg, resolve=True)
-    wandb.init(**cfg.wandb, config=logging_cfg)
+    if cfg.main.use_wandb:
+        wandb.init(**cfg.wandb, config=logging_cfg)
 
     # Environment
     env_constructor = environments.__dict__[cfg.env.name]
@@ -146,7 +147,8 @@ def main(cfg):
                        'avg_acc': avg_acc,
                        'iter': i,
                        'task_id': task_id}
-            wandb.log(metrics)
+            if cfg.main.use_wandb:
+                wandb.log(metrics)
         
         # Update average accuracy for the current task.
         curr_task_avg_acc = (curr_task_timestep * curr_task_avg_acc + acc) / (curr_task_timestep + 1)
@@ -211,39 +213,45 @@ def main(cfg):
                 
                 curr_task_avg_acc = 0.
 
-                # # If measuring performance on past tasks, collect data from completed task.
-                # sample_task_xs, sample_task_ys = env.get_all_task_data(task_id=task_id, train=False)
-                
-                # # Get 1000 random samples.
-                # dataset_size = sample_task_xs.shape[0]
-                # num_samples = 1000
-                # random_indices = np.random.choice(
-                #     dataset_size, size=num_samples, replace=False)
 
-                # # Select samples using random indices.
-                # selected_xs = sample_task_xs[random_indices]
-                # selected_ys = sample_task_ys[random_indices]
+                past_task_acc_metrics = {}
+                if cfg.main.measure_forgetting:
+                    # If measuring performance on past tasks, collect data from completed task.
+                    sample_task_xs, sample_task_ys = env.get_all_task_data(task_id=task_id, train=False)
+                    
+                    # Get 1000 random samples.
+                    dataset_size = sample_task_xs.shape[0]
+                    num_samples = 1000
+                    random_indices = np.random.choice(
+                        dataset_size, size=num_samples, replace=False)
 
-                # # Append to past task data.
-                # all_past_task_xs.append(selected_xs)
-                # all_past_task_ys.append(selected_ys)
-                
-                # # Evaluate model on past tasks.
-                # past_task_acc_metrics = evaluate_on_past_tasks(
-                #     env, agent, all_past_task_xs, all_past_task_ys)
+                    # Select samples using random indices.
+                    selected_xs = sample_task_xs[random_indices]
+                    selected_ys = sample_task_ys[random_indices]
 
-            wandb.log({**iter_metrics, **iter_metrics_task_type, **past_task_acc_metrics})
+                    # Append to past task data.
+                    all_past_task_xs.append(selected_xs)
+                    all_past_task_ys.append(selected_ys)
+                    
+                    # Evaluate model on past tasks.
+                    past_task_acc_metrics = evaluate_on_past_tasks(
+                        env, agent, all_past_task_xs, all_past_task_ys)
+
+            if cfg.main.use_wandb:
+                wandb.log({**iter_metrics, **iter_metrics_task_type, **past_task_acc_metrics})
 
     # Compute backward transfer metric as computed in https://arxiv.org/pdf/1706.08840.pdf.
-    # bwt_metric = 0.
-    # for i in range(task_id):
-    #     # Compute accuracy on past task.
-    #     new_past_task_acc = evaluate(env, agent, train=False, task_id=i)['acc']
-    #     bwt_metric += new_past_task_acc - task_test_accs[i]
-    
-    # bwt_metric /= task_id
-    # one_step_bwt_metric /= task_id
-    # wandb.log({"bwt": bwt_metric, "one_step_bwt": one_step_bwt_metric, 'overall_avg_acc': avg_acc,})
+    if cfg.main.measure_forgetting:
+        bwt_metric = 0.
+        for i in range(task_id):
+            # Compute accuracy on past task.
+            new_past_task_acc = evaluate(env, agent, train=False, task_id=i)['acc']
+            bwt_metric += new_past_task_acc - task_test_accs[i]
+        
+        if cfg.main.use_wandb:
+            bwt_metric /= task_id
+            one_step_bwt_metric /= task_id
+            wandb.log({"bwt": bwt_metric, "one_step_bwt": one_step_bwt_metric, 'overall_avg_acc': avg_acc})
 
 
     wandb.finish()

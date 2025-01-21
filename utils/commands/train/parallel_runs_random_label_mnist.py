@@ -34,7 +34,7 @@ def create_all_commands():
 
     MODEL_ARGS="model.model_name=MLP model.output_dim=10 model.num_hidden=2 model.hidden_size=100"
 
-    EXP_ARGS="logging.log_freq=13037"
+    EXP_ARGS="logging.log_freq=13037 main.use_wandb=True"
     
     base_command_str = f'python main.py optimizer_cfg.name=SGD {ENV_ARGS} {MODEL_ARGS} {EXP_ARGS} {SWEEP}'
     lr_params = {'optimizer_cfg.lr': [str(0.01), str(0.001)]}
@@ -94,7 +94,7 @@ def create_all_commands():
     # Batch 5 - CReLU.
     command_str = f'{base_command_str} agent=crelu'
     params = {
-        'main.seed': [str(i) for i in range(3, 13)],
+        'main.seed': [str(i) for i in range(3)],
         'agent.params.fraction_to_remove': [str(0.09)],
     }
     params = {
@@ -147,7 +147,7 @@ def create_all_commands():
     # Batch 9 - Shrink and Perturb
     command_str = f'{base_command_str} agent=shrink_and_perturb'
     params = {
-        'main.seed': [str(i) for i in range(3, 13)],
+        'main.seed': [str(i) for i in range(3)],
         'agent.params.shrink': [1e-4],
         'agent.params.perturb_scale': [1e-2],
     }
@@ -160,7 +160,7 @@ def create_all_commands():
     # Batch 10 - L2 Init + Resample.
     command_str = f'{base_command_str} agent=l2_init'
     params = {
-        'main.seed': [str(i) for i in range(3, 13)],
+        'main.seed': [str(i) for i in range(3)],
         'agent.params.l2_weight': [str(0.01)],  # [str(0.01), str(0.001), str(0.0001), str(0.00001)]
         'agent.params.sample_init_values': [True],
     }

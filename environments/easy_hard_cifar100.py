@@ -88,10 +88,10 @@ class EasyHardCIFAR100:
         self.num_tasks = len(self.cifar_task_classes) - 1
         self.horizon = int(0.5 * (easy_task_duration + hard_task_duration) * self.num_tasks) 
             
-        self.train_images.to(device)
-        self.train_labels.to(device)
-        self.test_images.to(device)
-        self.test_labels.to(device)
+        self.train_images = self.train_images.to(device)
+        self.train_labels = self.train_labels.to(device)
+        self.test_images = self.test_images.to(device)
+        self.test_labels = self.test_labels.to(device)
 
         self._load_task_data(self.task_id)
         

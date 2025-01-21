@@ -34,7 +34,7 @@ def create_all_commands():
 
     MODEL_ARGS="model.model_name=MLP model.output_dim=10 model.num_hidden=2 model.hidden_size=100"
 
-    EXP_ARGS="logging.log_freq=13037"
+    EXP_ARGS="logging.log_freq=13037 main.use_wandb=True"
     
     base_command_str = f'python main.py optimizer_cfg.name=SGD {ENV_ARGS} {MODEL_ARGS} {EXP_ARGS} {SWEEP}'
     lr_params = {'optimizer_cfg.lr': [str(0.01), str(0.001)]}
@@ -169,19 +169,6 @@ def create_all_commands():
     #     **lr_params,
     # }
     # commands_batch10 = generate_commands(command_str, params)
-    #
-    # # Batch 11 - ConcatReLUPlusL2InitAgent.
-    # command_str = f'{base_command_str} agent=concat_relu_plus_l2_init'
-    # params = {
-    #     'main.seed': [str(i) for i in range(3)],
-    #     'agent.params.l2_weight': [str(0.01), str(0.001), str(0.0001), str(0.00001)],
-    #     'agent.params.fraction_to_remove': [str(0.09)]
-    # }
-    # params = {
-    #     **params,
-    #     **lr_params,
-    # }
-    # commands_batch11 = generate_commands(command_str, params)
     
     commands = commands_batch6
     
