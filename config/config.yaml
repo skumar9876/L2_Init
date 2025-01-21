@@ -18,6 +18,7 @@ main:
   device: "gpu"
   loss_fn: CrossEntropyLoss
   measure_forgetting: False
+  use_wandb: False
 
 optimizer_cfg:
   name: SGD   # One of [Adam, SGD]
