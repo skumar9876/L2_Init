@@ -19,6 +19,16 @@ from utils.continual_backprop.convGnT import ConvGnT
 class BaseAgent:
 
     def __init__(self, model_constructor, optimizer_cfg, loss_fn, device):
+        """
+        Initializes the BaseAgent instance.
+
+        Args:
+            model_constructor (callable): A callable that constructs the model. The callable should return an instance of nn.Module.
+            optimizer_cfg (dict): Configuration for the optimizer, including optimizer type and hyperparameters.
+            loss_fn (callable): The loss function to be used for training. Should accept model predictions and target values as inputs.
+            device (torch.device): The device on which the model and computations will run (e.g., 'cpu' or 'cuda').
+        """
+
         super().__init__()
 
         self.model_constructor = model_constructor
@@ -164,6 +174,15 @@ class BaseAgent:
 class LayerNormAgent(BaseAgent):
 
     def __init__(self, model_constructor, optimizer_cfg, loss_fn, device):
+        """
+        Initializes the LayerNormAgent instance.
+
+        Args:
+            model_constructor (callable): A callable that constructs the model. The callable should return an instance of nn.Module.
+            optimizer_cfg (dict): Configuration for the optimizer, including optimizer type and hyperparameters.
+            loss_fn (callable): The loss function to be used for training. Should accept model predictions and target values as inputs.
+            device (torch.device): The device on which the model and computations will run (e.g., 'cpu' or 'cuda').
+        """
         super().__init__(model_constructor, optimizer_cfg, loss_fn, device)
         # Overwrite the model and optimizer.
         self.model = model_constructor(apply_layer_norm=True)
@@ -188,6 +207,16 @@ class L2Agent(BaseAgent):
 
     def __init__(self, model_constructor, optimizer_cfg, loss_fn, device, 
                  l2_weight):
+        """
+        Initializes the L2Agent instance.
+
+        Args:
+            model_constructor (callable): A callable that constructs the model. The callable should return an instance of nn.Module.
+            optimizer_cfg (dict): Configuration for the optimizer, including optimizer type and hyperparameters.
+            loss_fn (callable): The loss function to be used for training. Should accept model predictions and target values as inputs.
+            device (torch.device): The device on which the model and computations will run (e.g., 'cpu' or 'cuda').
+            l2_weight (float): L2 regularization strength.
+        """
         super().__init__(model_constructor, optimizer_cfg, loss_fn, device)
 
         self.l2_weight = l2_weight
@@ -217,6 +246,17 @@ class L2InitAgent(BaseAgent):
 
     def __init__(self, model_constructor, optimizer_cfg, loss_fn, device, 
                  l2_weight, sample_init_values):
+        """
+        Initializes the L2InitAgent instance.
+
+        Args:
+            model_constructor (callable): A callable that constructs the model. The callable should return an instance of nn.Module.
+            optimizer_cfg (dict): Configuration for the optimizer, including optimizer type and hyperparameters.
+            loss_fn (callable): The loss function to be used for training. Should accept model predictions and target values as inputs.
+            device (torch.device): The device on which the model and computations will run (e.g., 'cpu' or 'cuda').
+            l2_weight (float): L2 Init regularization strength.
+            sample_init_values (bool): Whether to regularize to fixed or re-sampled initial values.
+        """
         super().__init__(model_constructor, optimizer_cfg, loss_fn, device)
 
         self.l2_weight = l2_weight
@@ -313,6 +353,17 @@ class L1InitAgent(BaseAgent):
 
     def __init__(self, model_constructor, optimizer_cfg, loss_fn, device, 
                  l1_weight, sample_init_values):
+        """
+        Initializes the L1InitAgent instance.
+
+        Args:
+            model_constructor (callable): A callable that constructs the model. The callable should return an instance of nn.Module.
+            optimizer_cfg (dict): Configuration for the optimizer, including optimizer type and hyperparameters.
+            loss_fn (callable): The loss function to be used for training. Should accept model predictions and target values as inputs.
+            device (torch.device): The device on which the model and computations will run (e.g., 'cpu' or 'cuda').
+            l1_weight (float): L1 Init regularization strength.
+            sample_init_values (bool): Whether to regularize to fixed or re-sampled initial values.
+        """
         super().__init__(model_constructor, optimizer_cfg, loss_fn, device)
 
         self.l1_weight = l1_weight
